@@ -1,13 +1,15 @@
 import React from "react";
-import "./App.css";
+import { ToastContainer, toast } from "react-toastify";
 import Display from "./Display";
 import ButtonsContainer from "./ButtonsContainer";
+import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class App extends React.Component {
   state = {
     result: 0,
-    operatorOne: null,
-    operatorTwo: null,
+    operandOne: null,
+    operandTwo: null,
     operation: null,
   };
 
@@ -17,8 +19,8 @@ export default class App extends React.Component {
 
   customSolver(state) {
     console.log("custom", state);
-    const a = parseFloat(state.operatorOne);
-    const b = parseFloat(state.operatorTwo);
+    const a = parseFloat(state.operandOne);
+    const b = parseFloat(state.operandTwo);
 
     if (state.operation === "+") {
       return `${a + b}`;
@@ -31,6 +33,7 @@ export default class App extends React.Component {
     }
     if (state.operation === "/") {
       if (b === 0) {
+        toast.error("Error dividing by 0.");
         return "0";
       } else {
         return `${a / b}`;
@@ -44,26 +47,26 @@ export default class App extends React.Component {
       case "C":
         return {
           result: 0,
-          operatorOne: null,
-          operatorTwo: null,
+          operandOne: null,
+          operandTwo: null,
           operation: null,
         };
       case ".":
         if (prevState.operation) {
-          if (!prevState.operatorTwo) return { operatorTwo: "0." };
-          if (prevState.operatorTwo.includes(".")) return {};
-          return { operatorTwo: `${prevState.operatorTwo}.` };
+          if (!prevState.operandTwo) return { operandTwo: "0." };
+          if (prevState.operandTwo.includes(".")) return {};
+          return { operandTwo: `${prevState.operandTwo}.` };
         } else {
-          if (!prevState.operatorOne) return { operatorOne: "0." };
-          if (prevState.operatorOne.includes(".")) return {};
-          return { operatorOne: `${prevState.operatorOne}.` };
+          if (!prevState.operandOne) return { operandOne: "0." };
+          if (prevState.operandOne.includes(".")) return {};
+          return { operandOne: `${prevState.operandOne}.` };
         }
       case "=":
-        if (prevState.operatorTwo) {
+        if (prevState.operandTwo) {
           return {
             result: this.customSolver(prevState),
-            operatorOne: null,
-            operatorTwo: null,
+            operandOne: null,
+            operandTwo: null,
             operation: null,
           };
         } else {
@@ -72,23 +75,22 @@ export default class App extends React.Component {
       default:
         if (prevState.result !== 0) prevState.result = 0;
         if (this.isOperation(key)) {
-          if (!this.state.operatorOne) return {};
-          return { operation: key, operatorTwo: null };
+          if (!this.state.operandOne) {
+            toast.info("Type the first operand.");
+            return {};
+          }
+          return { operation: key, operandTwo: null };
         }
 
         if (prevState.operation) {
-          if (prevState.operatorTwo === "0" && key === "0") return {};
+          if (prevState.operandTwo === "0" && key === "0") return {};
           return {
-            operatorTwo: prevState.operatorTwo
-              ? prevState.operatorTwo + key
-              : key,
+            operandTwo: prevState.operandTwo ? prevState.operandTwo + key : key,
           };
         } else {
-          if (prevState.operatorOne === "0" && key === "0") return {};
+          if (prevState.operandOne === "0" && key === "0") return {};
           return {
-            operatorOne: prevState.operatorOne
-              ? prevState.operatorOne + key
-              : key,
+            operandOne: prevState.operandOne ? prevState.operandOne + key : key,
           };
         }
     }
@@ -101,11 +103,12 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="Calculator-container">
+        <ToastContainer />
         <Display
           result={this.state.result}
-          operation={`${this.state.operatorOne ? this.state.operatorOne : ""} ${
+          operation={`${this.state.operandOne ? this.state.operandOne : ""} ${
             this.state.operation ? this.state.operation : ""
-          } ${this.state.operatorTwo ? this.state.operatorTwo : ""}`}
+          } ${this.state.operandTwo ? this.state.operandTwo : ""}`}
         />
         <ButtonsContainer clickHandler={this.handleClick} />
       </div>
