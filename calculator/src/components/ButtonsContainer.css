@@ -1,42 +1,3 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-body {
-  background: #138D75;
-}
-
-.Calculator-container {
-  height: 550px;
-  width: 425px;
-  margin: 40px auto 0;
-  padding: 2.5rem 1.75rem;
-
-}
-.Calculator-header {
-  height: 90px;
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding: 1rem 1.5rem;
-  border: 1px solid #fefefe;
-  border-radius: 1rem;
-  background-color: white;
-}
-
-.Calculator-header > .Calculator-operator {
-  font-size: 17px;
-  font-weight: bold;
-  color: tan;
-}
-
-.Calculator-header > .Calculator-result {
-  font-size: 28px;
-  font-weight: bold;
-  color: navy;
-}
-
 .Calculator-body {
   display: flex;
   flex-wrap: wrap;
@@ -58,7 +19,7 @@ body {
   font-size: 1.2rem;
 }
 
-.Calculator-key .number {
+.number {
   background-color: gainsboro;
   color: black;
   border: 1px solid #cecece;
@@ -73,6 +34,7 @@ body {
 .reset {
   background-color: brown;
   color: black;
+  border: 1px solid #7e0505;
 }
 
 .dual-operation {

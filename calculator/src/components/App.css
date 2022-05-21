@@ -1,0 +1,15 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: #138D75;
+}
+
+.Calculator-container {
+  height: 550px;
+  width: 425px;
+  margin: 40px auto 0;
+  padding: 2.5rem 1.75rem;
+
+}
